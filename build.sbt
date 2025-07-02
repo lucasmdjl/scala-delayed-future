@@ -1,5 +1,5 @@
 ThisBuild / organization := "dev.lucasmdjl"
-ThisBuild / version := "0.1.0"
+ThisBuild / version := "0.2.0"
 ThisBuild / description := "A Scala 3 micro-library for ergonomically creating delayed Futures."
 ThisBuild / scalaVersion := "3.7.1"
 ThisBuild / sonatypeCredentialHost := xerial.sbt.Sonatype.sonatypeCentralHost
