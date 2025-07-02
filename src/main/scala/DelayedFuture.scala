@@ -19,7 +19,7 @@
 package dev.lucasmdjl.scala.delayedfuture
 
 import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration.{DurationInt, FiniteDuration}
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.util.Try
 
@@ -32,7 +32,7 @@ extension (f: Future.type)
     * exception.
     *
     * @param delay
-    *   the duration to wait before executing the operation
+    *   the duration to wait before executing the operation. Must not be negative
     * @param operation
     *   the computation to execute after the delay
     * @tparam T
@@ -50,7 +50,8 @@ extension (f: Future.type)
     * }
     *   }}}
     */
-  def delayed[T](delay: Duration)(operation: => T): Future[T] = {
+  def delayed[T](delay: FiniteDuration)(operation: => T): Future[T] = {
+    require(delay >= 0.nanos, s"delay must not be negative, but was $delay")
     val scheduler: ScheduledExecutorService = Executors.newScheduledThreadPool(
       1,
       r => {
@@ -66,8 +67,8 @@ extension (f: Future.type)
         scheduler.shutdown()
         42 // Help the compiler choose an overload of schedule
       },
-      delay.toMillis,
-      TimeUnit.MILLISECONDS
+      delay.toNanos,
+      TimeUnit.NANOSECONDS
     )
     promise.future
   }
@@ -78,7 +79,7 @@ extension (f: Future.type)
     * delay applies to when the future is created, not when it completes.
     *
     * @param delay
-    *   the duration to wait before starting the future
+    *   the duration to wait before starting the future. Must not be negative.
     * @param future
     *   the future computation to execute after the delay (call-by-name)
     * @tparam T
@@ -98,6 +99,6 @@ extension (f: Future.type)
     * }
     *   }}}
     */
-  def after[T](delay: Duration)(future: => Future[T])(using
+  def after[T](delay: FiniteDuration)(future: => Future[T])(using
       ExecutionContext
   ): Future[T] = delayed(delay)(()).flatMap(_ => future)

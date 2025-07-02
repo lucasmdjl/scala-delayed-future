@@ -51,6 +51,18 @@ class DelayedFutureSpec extends AnyFlatSpec {
     assert(after >= before + 100)
   }
 
+  it should "accept 0 delay" in {
+    Future.delayed(0.milli) {
+      42
+    }
+  }
+
+  it should "throw IllegalArgument exception if delay is negative" in {
+    assertThrows[IllegalArgumentException](Future.delayed(-10.milli) {
+      42
+    })
+  }
+
   "Future.after" should "complete with the future result if successful" in {
     val future = Future.after(100.millis) {
       Future.successful(42)
@@ -72,6 +84,20 @@ class DelayedFutureSpec extends AnyFlatSpec {
     }(using ExecutionContext.global)
     val after = Await.result(future, 1.second)
     assert(after >= before + 100)
+  }
+
+  it should "accept 0 delay" in {
+    Future.after(0.milli) {
+      Future.successful(42)
+    }(using ExecutionContext.global)
+  }
+
+  it should "throw IllegalArgument exception if delay is negative" in {
+    assertThrows[IllegalArgumentException](
+      Future.after(-10.milli) {
+        Future.successful(42)
+      }(using ExecutionContext.global)
+    )
   }
 
 }
