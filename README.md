@@ -19,7 +19,7 @@ While `Future { Thread.sleep(2000); doSomething() }` works, it blocks a thread f
 Add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "dev.lucasmdjl" %% "scala-delayed-future" % "0.1.0"
+libraryDependencies += "dev.lucasmdjl" %% "scala-delayed-future" % "0.3.0"
 ```
 
 ## Usage
