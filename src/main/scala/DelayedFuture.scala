@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package dev.lucasmdjl.scala.delayedfuture
+package dev.lucasmdjl.delayedfuture
 
 import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
 import scala.concurrent.duration.{DurationInt, FiniteDuration}

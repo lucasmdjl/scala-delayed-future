@@ -27,7 +27,7 @@ libraryDependencies += "dev.lucasmdjl" %% "scala-delayed-future" % "0.1.0"
 Import the extension methods:
 
 ```scala
-import dev.lucasmdjl.scala.delayedfuture.*
+import dev.lucasmdjl.delayedfuture.*
 import scala.concurrent.duration.*
 ```
 
